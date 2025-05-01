@@ -1,0 +1,55 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# Default settings applied to all hooks unless overridden
+default_language_version:
+    python: python3.12
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # Use the latest stable version
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: check-merge-conflict
+    -   id: check-toml
+
+-   repo: https://github.com/psf/black
+    rev: 25.1.0 # Match version in requirements-dev.txt
+    hooks:
+    -   id: black
+        args: [--config=./pyproject.toml]
+
+-   repo: https://github.com/PyCQA/isort
+    rev: 6.0.1 # Match version in requirements-dev.txt
+    hooks:
+    -   id: isort
+        name: isort (python)
+        args: [--settings-path=./pyproject.toml]
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.2.0 # Match version in requirements-dev.txt
+    hooks:
+    -   id: flake8
+        args: [--config=./.flake8]
+        # Optionally add --ignore=... if needed beyond .flake8 config
+        additional_dependencies: ['flake8-bugbear'] # Example additional plugin
+
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0 # Match version in requirements-dev.txt
+    hooks:
+    -   id: mypy
+        args: [--config-file=./pyproject.toml]
+        # Pass files explicitly to mypy
+        files: ^src/
+        # Exclude migrations if they cause issues
+        exclude: ^.*/migrations/
+        additional_dependencies:
+          - types-python-decouple
+          - types-pytz # Django dependency
+          - types-PyYAML
+          # Add stubs for other libraries as needed
+          # - django-stubs # Requires plugin setup in pyproject.toml
+          # - djangorestframework-stubs

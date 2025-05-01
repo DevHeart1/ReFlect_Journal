@@ -1,0 +1,15 @@
+[flake8]
+# Ignore some flake8 warnings:
+# E203: whitespace before ':' (conflicts with black)
+# E501: line too long (handled by black)
+# W503: line break before binary operator (conflicts with black)
+ignore = E203, E501, W503
+# Set max line complexity
+max-complexity = 10
+# Exclude migrations and virtual environment directories
+exclude =
+    */migrations/*,
+    .venv/*,
+    */__pycache__/*,
+    staticfiles/*,
+    mediafiles/*
